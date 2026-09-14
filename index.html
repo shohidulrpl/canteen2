@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chattogram Canteen Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Vibrant, Eye-Catching Colors */
+            --primary-gradient: linear-gradient(135deg, #ff6d5a 0%, #ff3b7c 100%);
+            --deep-bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+            
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-glow: 0 0 20px rgba(255, 109, 90, 0.3);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--deep-bg); /* Deep, attractive background */
+            background-attachment: fixed;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Upgraded Card Design */
+        .dashboard-card {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 520px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            border-top: 6px solid #ff6d5a;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 30px 25px;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* Top Highlighted Month & Total Box */
+        .stats-container {
+            padding: 0 35px;
+            margin-bottom: 35px;
+        }
+
+        .stats-box {
+            background: #fff5f4;
+            border: 2px solid #ffe4e1;
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 109, 90, 0.05);
+        }
+
+        .stats-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+            border-color: #ffb1a6;
+        }
+
+        .stats-label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .month-badge {
+            display: inline-block;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            width: fit-content;
+        }
+
+        .stats-label strong {
+            font-size: 18px;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        /* Eye-Catching Gradient Text for Numbers */
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .stats-value {
+            font-size: 42px;
+            line-height: 1;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .stats-value span {
+            font-size: 15px;
+            font-weight: 600;
+            -webkit-text-fill-color: var(--text-muted); /* Overrides gradient for the word 'meals' */
+        }
+
+        /* Selection Area */
+        .action-area {
+            padding: 0 35px 40px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            background-color: #f8fafc;
+            transition: all 0.3s ease;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Special styling for the Daily Meal result */
+        input[type="text"] {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: #ff3b7c; 
+            background: #fff;
+            cursor: default;
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: #ff6d5a;
+            box-shadow: 0 0 0 4px rgba(255, 109, 90, 0.15);
+        }
+
+        .separator {
+            padding-bottom: 22px;
+            color: var(--text-muted);
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        /* Upgraded Admin Button */
+        .footer {
+            padding: 30px;
+            text-align: center;
+            background-color: #f8fafc;
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+
+        .btn-admin {
+            background: var(--primary-gradient);
+            color: #ffffff;
+            padding: 14px 35px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: inherit;
+            text-decoration: none;
+            box-shadow: 0 10px 20px -5px rgba(255, 109, 90, 0.4);
+            border: none;
+        }
+
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(255, 109, 90, 0.5);
+        }
+        
+        .loading {
+            opacity: 0.5;
+            animation: pulse 1.5s infinite;
+            font-size: 18px !important;
+            -webkit-text-fill-color: var(--text-muted);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-card">
+        <div class="header">
+            <h1>🍽️ Chattogram Canteen</h1>
+            <p>Menu & Database Management</p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stats-box">
+                <div class="stats-label">
+                    <span class="month-badge">September 2026</span>
+                    <strong>Total Meals</strong>
+                </div>
+                <div class="stats-value gradient-text" id="total-meal-display">
+                    -- <span>meals</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-area">
+            <div class="input-group" style="flex: 2;">
+                <label for="date-select">Select Date</label>
+                <select id="date-select">
+                    <!-- Options populated by JS -->
+                </select>
+            </div>
+
+            <div class="separator">-</div>
+
+            <div class="input-group" style="flex: 1;">
+                <label for="meal-input">Today's Meal</label>
+                <input type="text" id="meal-input" placeholder="0" readonly>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="https://n8n-56.onrender.com/form/c0ea6a12-534c-4d0c-a468-ce8ada5bf51a" class="btn-admin">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                Admin Login
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateSelect = document.getElementById('date-select');
+            const totalMealDisplay = document.getElementById('total-meal-display');
+            const dailyMealInput = document.getElementById('meal-input');
+            
+            // Get today's actual date to auto-select it
+            const today = new Date();
+            const todayDay = today.getDate();
+            const todayFormatted = `2026-09-${todayDay.toString().padStart(2, '0')}`;
+
+            // Populate Dropdown for 30 days of September
+            const daysInMonth = 30; 
+            for (let i = 1; i <= daysInMonth; i++) {
+                const option = document.createElement('option');
+                const formattedDate = `2026-09-${i.toString().padStart(2, '0')}`;
+                option.value = formattedDate;
+                
+                let suffix = "th";
+                if (i % 10 === 1 && i !== 11) suffix = "st";
+                else if (i % 10 === 2 && i !== 12) suffix = "nd";
+                else if (i % 10 === 3 && i !== 13) suffix = "rd";
+                
+                // Add "(Today)" text next to the current date for UX
+                let displayText = `${i}${suffix} Sept`;
+                if (i === todayDay) displayText += " (Today)";
+                
+                option.textContent = displayText;
+                dateSelect.appendChild(option);
+            }
+
+            // Auto-Select Current Date in the dropdown
+            dateSelect.value = todayFormatted;
+
+            const WEBHOOK_URL = "https://n8n-56.onrender.com/webhook/get-meal-total"; 
+
+            function extractQuantity(data) {
+                if (Array.isArray(data) && data.length > 0) {
+                    return data[0].totalMealQuantity || data[0].json?.totalMealQuantity || 0;
+                }
+                return data.totalMealQuantity || 0;
+            }
+
+            // Fetch the overall total meal count (Whole month)
+            async function fetchOverallTotal() {
+                totalMealDisplay.innerHTML = `<span class="loading">Loading...</span>`;
+                try {
+                    const response = await fetch(WEBHOOK_URL);
+                    if (!response.ok) throw new Error("Network response error");
+                    const data = await response.json();
+                    
+                    totalMealDisplay.innerHTML = `${extractQuantity(data)} <span>meals</span>`;
+                } catch (error) {
+                    console.error("Error fetching total:", error);
+                    totalMealDisplay.innerHTML = `<span style="font-size: 14px; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted)">Data Error</span>`;
+                }
+            }
+
+            // Fetch specific daily meal count based on selection
+            async function fetchDailyTotal(dateQuery) {
+                if (!dateQuery) return;
+                
+                dailyMealInput.value = "..."; 
+                try {
+                    const response = await fetch(`${WEBHOOK_URL}?date=${dateQuery}`);
+                    if (!response.ok) throw new Error("Network response error");
+                    const data = await response.json();
+                    
+                    dailyMealInput.value = extractQuantity(data);
+                } catch (error) {
+                    console.error("Error fetching daily total:", error);
+                    dailyMealInput.value = "ERR";
+                }
+            }
+
+            // Listen for date selection changes
+            dateSelect.addEventListener('change', (e) => {
+                fetchDailyTotal(e.target.value);
+            });
+
+            // Run initial fetches on page load for both Overall and Auto-Selected Day
+            fetchOverallTotal();
+            fetchDailyTotal(todayFormatted);
+        });
+    </script>
+</body>
+</html>
