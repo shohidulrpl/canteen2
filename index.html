@@ -2,244 +2,247 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chattogram Canteen Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CTG Canteen Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Vibrant, Eye-Catching Colors */
-            --primary-gradient: linear-gradient(135deg, #ff6d5a 0%, #ff3b7c 100%);
-            --deep-bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+            --primary-gradient: linear-gradient(135deg, #ff5e62 0%, #ff9966 100%);
+            --button-gradient: linear-gradient(135deg, #ff6d5a 0%, #ff3b7c 100%);
+            --deep-bg: #1e1b4b; /* Deep background matching the image app canvas */
             
             --card-bg: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
-            --shadow-glow: 0 0 20px rgba(255, 109, 90, 0.3);
-            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            --radius: 20px;
+            --radius: 24px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--deep-bg); /* Deep, attractive background */
-            background-attachment: fixed;
+            background: var(--deep-bg);
+            background: linear-gradient(180deg, #2b32b2 0%, #141517 100%);
             color: var(--text-main);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
         }
 
-        /* Upgraded Card Design */
+        /* Top App Bar Simulation */
+        .app-bar {
+            width: 100%;
+            padding: 20px 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+            background-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        /* Main Card Container */
         .dashboard-card {
             background-color: var(--card-bg);
-            width: 100%;
-            max-width: 520px;
+            width: 92%;
+            max-width: 450px;
             border-radius: var(--radius);
-            box-shadow: var(--shadow-xl);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             position: relative;
-            border-top: 6px solid #ff6d5a;
+            border-top: 10px solid #ff6d5a; /* Matching the orange top rim */
+            overflow: hidden;
+            margin-bottom: 30px;
         }
 
+        /* Header Area */
         .header {
             text-align: center;
-            padding: 40px 30px 25px;
+            padding: 35px 20px 15px;
         }
 
         .header h1 {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: 800;
             color: var(--text-main);
-            margin-bottom: 5px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            letter-spacing: -0.5px;
+            gap: 10px;
         }
 
         .header p {
             color: var(--text-muted);
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 500;
         }
 
-        /* Top Highlighted Month & Total Box */
+        /* The Pink Stats Box */
         .stats-container {
-            padding: 0 35px;
-            margin-bottom: 35px;
+            padding: 0 20px;
+            margin-bottom: 25px;
         }
 
         .stats-box {
-            background: #fff5f4;
-            border: 2px solid #ffe4e1;
+            background: #fff5f5;
+            border: 1px solid #ffe4e1;
             border-radius: 16px;
-            padding: 25px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Blue Month Pill */
+        .month-pill {
+            background-color: #041499;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            width: fit-content;
+            margin: 0 auto; 
+        }
+
+        /* Total Meal Display Row - Upgraded with 3D Shape */
+        .total-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 109, 90, 0.05);
+            background-color: #ffffff; /* Perfect match to the site card background */
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            /* 3D Box Shadow Effect */
+            box-shadow: 
+                0 10px 15px -3px rgba(0, 0, 0, 0.05),
+                0 4px 6px -2px rgba(0, 0, 0, 0.025),
+                inset 0 -4px 0 rgba(226, 232, 240, 0.6), /* 3D bottom depth edge */
+                inset 0 2px 0 rgba(255, 255, 255, 0.9);  /* 3D top highlight */
         }
 
-        .stats-box:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-glow);
-            border-color: #ffb1a6;
-        }
-
-        .stats-label {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .month-badge {
-            display: inline-block;
-            background: var(--primary-gradient);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+        .total-label {
+            background-color: transparent; 
+            color: #1e293b;
+            padding: 0; 
+            font-size: 17px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            width: fit-content;
-        }
-
-        .stats-label strong {
-            font-size: 18px;
-            color: var(--text-main);
-            font-weight: 700;
-        }
-
-        /* Eye-Catching Gradient Text for Numbers */
-        .gradient-text {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
         }
 
         .stats-value {
-            font-size: 42px;
+            font-size: 52px;
             line-height: 1;
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
+            font-weight: 800;
+            background: var(--button-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .stats-value span {
-            font-size: 15px;
-            font-weight: 600;
-            -webkit-text-fill-color: var(--text-muted); /* Overrides gradient for the word 'meals' */
-        }
-
-        /* Selection Area */
+        /* Date & Meal Selection Area */
         .action-area {
-            padding: 0 35px 40px;
+            padding: 0 20px 20px;
             display: flex;
-            gap: 20px;
+            justify-content: space-between;
             align-items: flex-end;
-            border-bottom: 1px solid var(--border-color);
+            gap: 10px;
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .input-group label {
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
+            line-height: 1.4;
+        }
+
+        .select-wrapper {
+            flex: 1;
+        }
+
+        .meal-wrapper {
+            width: 85px;
+            text-align: center;
         }
 
         select, input[type="text"] {
             width: 100%;
-            padding: 16px;
-            border: 2px solid var(--border-color);
+            height: 52px;
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             font-family: inherit;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--text-main);
-            background-color: #f8fafc;
-            transition: all 0.3s ease;
+            background-color: #ffffff;
             outline: none;
-            cursor: pointer;
+            padding: 0 12px;
         }
 
-        /* Special styling for the Daily Meal result */
+        /* Center Today's Meal text and style it */
         input[type="text"] {
             text-align: center;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             color: #ff3b7c; 
-            background: #fff;
+            padding: 0;
             cursor: default;
         }
 
-        select:focus, input[type="text"]:focus {
-            border-color: #ff6d5a;
-            box-shadow: 0 0 0 4px rgba(255, 109, 90, 0.15);
-        }
-
         .separator {
-            padding-bottom: 22px;
-            color: var(--text-muted);
+            padding-bottom: 15px;
+            font-size: 20px;
             font-weight: 800;
-            font-size: 18px;
+            color: var(--text-main);
         }
 
-        /* Upgraded Admin Button */
+        /* Footer & Button */
         .footer {
-            padding: 30px;
-            text-align: center;
-            background-color: #f8fafc;
-            border-radius: 0 0 var(--radius) var(--radius);
+            padding: 20px 20px 40px;
+            display: flex;
+            justify-content: center;
         }
 
         .btn-admin {
-            background: var(--primary-gradient);
+            background: var(--button-gradient);
             color: #ffffff;
-            padding: 14px 35px;
+            padding: 16px 40px;
             font-size: 16px;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 10px;
             font-family: inherit;
             text-decoration: none;
-            box-shadow: 0 10px 20px -5px rgba(255, 109, 90, 0.4);
+            box-shadow: 0 10px 25px rgba(255, 59, 124, 0.4);
             border: none;
+            transition: transform 0.2s;
         }
 
-        .btn-admin:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px -5px rgba(255, 109, 90, 0.5);
+        .btn-admin:active {
+            transform: scale(0.96);
         }
         
         .loading {
             opacity: 0.5;
             animation: pulse 1.5s infinite;
-            font-size: 18px !important;
+            font-size: 20px !important;
             -webkit-text-fill-color: var(--text-muted);
         }
 
@@ -253,6 +256,8 @@
 </head>
 <body>
 
+    <div class="app-bar">CTG Canteen</div>
+
     <div class="dashboard-card">
         <div class="header">
             <h1>🍽️ Chattogram Canteen</h1>
@@ -261,33 +266,35 @@
 
         <div class="stats-container">
             <div class="stats-box">
-                <div class="stats-label">
-                    <span class="month-badge">September 2026</span>
-                    <strong>Total Meals</strong>
-                </div>
-                <div class="stats-value gradient-text" id="total-meal-display">
-                    -- <span>meals</span>
+                <!-- ID added to dynamically inject the month name -->
+                <div class="month-pill" id="dynamic-month-pill">Month: Loading...</div>
+                
+                <!-- 3D Row Section -->
+                <div class="total-row">
+                    <div class="total-label">Total Meal:</div>
+                    <div class="stats-value" id="total-meal-display">--</div>
                 </div>
             </div>
         </div>
 
         <div class="action-area">
-            <div class="input-group" style="flex: 2;">
-                <label for="date-select">Select Date</label>
+            <div class="input-group select-wrapper">
+                <label for="date-select">SELECT DATE</label>
                 <select id="date-select">
-                    <!-- Options populated by JS -->
+                    <!-- Options populated dynamically by JS -->
                 </select>
             </div>
 
             <div class="separator">-</div>
 
-            <div class="input-group" style="flex: 1;">
-                <label for="meal-input">Today's Meal</label>
+            <div class="input-group meal-wrapper">
+                <label for="meal-input">TODAY'S<br>MEAL</label>
                 <input type="text" id="meal-input" placeholder="0" readonly>
             </div>
         </div>
 
         <div class="footer">
+            <!-- Strict Link Preservation -->
             <a href="https://n8n-56.onrender.com/form/c0ea6a12-534c-4d0c-a468-ce8ada5bf51a" class="btn-admin">
                 <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                 Admin Login
@@ -300,17 +307,28 @@
             const dateSelect = document.getElementById('date-select');
             const totalMealDisplay = document.getElementById('total-meal-display');
             const dailyMealInput = document.getElementById('meal-input');
+            const dynamicMonthPill = document.getElementById('dynamic-month-pill');
             
-            // Get today's actual date to auto-select it
+            // --- Dynamic Date Logic ---
+            const monthNamesFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const monthNamesShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+            
             const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonthIndex = today.getMonth(); 
             const todayDay = today.getDate();
-            const todayFormatted = `2026-09-${todayDay.toString().padStart(2, '0')}`;
 
-            // Populate Dropdown for 30 days of September
-            const daysInMonth = 30; 
+            // 1. Update the Month Pill text dynamically
+            dynamicMonthPill.textContent = `Month: ${monthNamesFull[currentMonthIndex]} ${currentYear}`;
+
+            // 2. Get correct number of days in the current month dynamically
+            const daysInMonth = new Date(currentYear, currentMonthIndex + 1, 0).getDate();
+            const formattedMonthString = (currentMonthIndex + 1).toString().padStart(2, '0');
+
+            // 3. Populate Dropdown dynamically based on current month/year
             for (let i = 1; i <= daysInMonth; i++) {
                 const option = document.createElement('option');
-                const formattedDate = `2026-09-${i.toString().padStart(2, '0')}`;
+                const formattedDate = `${currentYear}-${formattedMonthString}-${i.toString().padStart(2, '0')}`;
                 option.value = formattedDate;
                 
                 let suffix = "th";
@@ -318,8 +336,7 @@
                 else if (i % 10 === 2 && i !== 12) suffix = "nd";
                 else if (i % 10 === 3 && i !== 13) suffix = "rd";
                 
-                // Add "(Today)" text next to the current date for UX
-                let displayText = `${i}${suffix} Sept`;
+                let displayText = `${i}${suffix} ${monthNamesShort[currentMonthIndex]}`;
                 if (i === todayDay) displayText += " (Today)";
                 
                 option.textContent = displayText;
@@ -327,8 +344,10 @@
             }
 
             // Auto-Select Current Date in the dropdown
+            const todayFormatted = `${currentYear}-${formattedMonthString}-${todayDay.toString().padStart(2, '0')}`;
             dateSelect.value = todayFormatted;
 
+            // --- Strict Webhook Logic ---
             const WEBHOOK_URL = "https://n8n-56.onrender.com/webhook/get-meal-total"; 
 
             function extractQuantity(data) {
@@ -338,18 +357,18 @@
                 return data.totalMealQuantity || 0;
             }
 
-            // Fetch the overall total meal count (Whole month)
+            // Fetch the overall total meal count
             async function fetchOverallTotal() {
-                totalMealDisplay.innerHTML = `<span class="loading">Loading...</span>`;
+                totalMealDisplay.innerHTML = `<span class="loading">...</span>`;
                 try {
                     const response = await fetch(WEBHOOK_URL);
                     if (!response.ok) throw new Error("Network response error");
                     const data = await response.json();
                     
-                    totalMealDisplay.innerHTML = `${extractQuantity(data)} <span>meals</span>`;
+                    totalMealDisplay.innerHTML = extractQuantity(data);
                 } catch (error) {
                     console.error("Error fetching total:", error);
-                    totalMealDisplay.innerHTML = `<span style="font-size: 14px; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted)">Data Error</span>`;
+                    totalMealDisplay.innerHTML = `<span style="font-size: 16px; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted)">Err</span>`;
                 }
             }
 
@@ -366,7 +385,7 @@
                     dailyMealInput.value = extractQuantity(data);
                 } catch (error) {
                     console.error("Error fetching daily total:", error);
-                    dailyMealInput.value = "ERR";
+                    dailyMealInput.value = "-";
                 }
             }
 
@@ -375,7 +394,7 @@
                 fetchDailyTotal(e.target.value);
             });
 
-            // Run initial fetches on page load for both Overall and Auto-Selected Day
+            // Run initial fetches on page load
             fetchOverallTotal();
             fetchDailyTotal(todayFormatted);
         });
